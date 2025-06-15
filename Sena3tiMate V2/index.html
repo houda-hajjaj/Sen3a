@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sena3timate - تعلم الخياطة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Viga&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="rtl login-page">
+    <!-- صفحة تسجيل الدخول -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="logo.png" alt="لوجو Sena3timate">
+            </div>
+            <h1 class="login-title">Sena3timate</h1>
+            <p class="login-subtitle">المساعدة الشخصية ديالك باش تتعلم الخياطة</p>
+            
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="input-group-login">
+                    <label class="input-label-login" for="phoneNumber">رقم التيليفون</label>
+                    <input type="tel" id="phoneNumber" class="input-field-login" placeholder="مثال: 0612345678" required>
+                </div>
+                
+                <div class="input-group-login">
+                    <label class="input-label-login" for="password">كلمة السر</label>
+                    <input type="password" id="password" class="input-field-login" placeholder="دخل كلمة السر ديالك" required>
+                </div>
+                
+                <button type="submit" class="login-btn">دخول</button>
+            </form>
+            
+            <div class="register-link">
+                <span>ماسجلتيش بعد؟</span>
+                <a onclick="showRegister()">دير حساب جديد</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية للدردشة -->
+    <div class="chat-container" id="chatContainer">
+        <header class="chat-header welcome-animation">
+            <div class="header-left">
+                <img src="logo.png" alt="لوجو Sena3timate" class="logo-img" onclick="showWelcomeMessage()">
+                <div class="header-title">
+                    <h1>Sena3timate</h1>
+                    <p>المساعدة الشخصية ديالك باش تتعلم الخياطة</p>
+                </div>
+            </div>
+            
+            <div class="user-profile" onclick="toggleDropdown()">
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">مستخدم</div>
+                    <div class="profile-level">مستوى مبتدئ</div>
+                </div>
+                <img src="" alt="الملف الشخصي" class="profile-avatar" id="profileAvatar">
+                <button class="menu-button">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <button class="dropdown-item" onclick="openProfileModal()">
+                        <i class="fas fa-user-edit"></i>
+                        <span>بدل المعلومات ديالك</span>
+                    </button>
+                    
+                    <button class="dropdown-item" onclick="showCompletedCourses()">
+                        <i class="fas fa-check-circle"></i>
+                        <span>الدروس اللي كملتي</span>
+                    </button>
+                    <button class="dropdown-item" onclick="showProgression()">
+                        <i class="fas fa-trophy"></i>
+                        <span>التقدم ديالي</span>
+                    </button>
+                    <button class="dropdown-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>خروج</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- نافذة تعديل الملف الشخصي -->
+        <div class="modal" id="profileModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">بدل المعلومات ديالك</h2>
+                    <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
+                </div>
+                
+                <div class="profile-edit">
+                    <div class="profile-picture-section">
+                        <img src="" alt="الملف الشخصي" class="profile-picture-preview" id="profilePicturePreview">
+                        <input type="file" id="profilePictureInput" accept="image/*" class="hidden" onchange="previewProfilePicture(event)">
+                        <button class="upload-btn" onclick="document.getElementById('profilePictureInput').click()">
+                            <i class="fas fa-camera"></i> <span>بدل الصورة</span>
+                        </button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label" for="usernameInput">الاسم ديالك</label>
+                        <input type="text" id="usernameInput" class="input-field" placeholder="كتب الاسم ديالك" maxlength="30">
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeModal('profileModal')">إلغاء</button>
+                    <button class="btn-save" onclick="saveProfile()">حفظ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة التقدم ديالي -->
+        <div class="modal" id="progressModal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 class="modal-title"><i class="fas fa-trophy"></i> <span>التقدم ديالي</span></h2>
+                    <button class="close-btn" onclick="closeModal('progressModal')">&times;</button>
+                </div>
+                
+                <div class="progress-section">
+                    <h3>التقدم العام</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;"><span>التقدم ديالك:</span> <span id="progressPercent">0</span>%</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--accent-warm);" id="completedQuizzes">0</div>
+                        <div class="stat-label">الاختبارات اللي نجحتي فيها</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--success);" id="averageScore">0</div>
+                        <div class="stat-label">المعدل ديالك (%)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--warning);" id="completedLessons">0</div>
+                        <div class="stat-label">الدروس اللي كملتي</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <h4>المستوى ديالك دابا</h4>
+                    <div class="level-badge" id="currentLevel">مبتدئ</div>
+                    <p style="margin-top: 10px; opacity: 0.8;"><span>عضو من</span> <span id="memberSince">08/06/2025</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة الدروس المكتملة -->
+        <div class="modal" id="completedCoursesModal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2 class="modal-title"><i class="fas fa-graduation-cap"></i> <span>الدروس اللي كملتي</span></h2>
+                    <button class="close-btn" onclick="closeModal('completedCoursesModal')">&times;</button>
+                </div>
+                
+                <p style="margin-bottom: 20px; text-align: center;">
+                    <span>كملتي</span> <span id="totalCompletedLessons">0</span> <span>درس من 15</span>
+                </p>
+                
+                <div id="completedCoursesList">
+                    <p style="text-align: center; opacity: 0.7;">ماكملتيش أي درس بعد.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة تأكيد الخروج -->
+        <div class="modal confirm-modal" id="logoutModal">
+            <div class="modal-content">
+                <div class="confirm-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <h3>تأكيد الخروج</h3>
+                <p style="margin: 20px 0; opacity: 0.8;">
+                    واش متأكد بلي بغيت تخرج؟
+                </p>
+                <div class="confirm-buttons">
+                    <button class="btn-cancel-confirm" onclick="closeModal('logoutModal')">إلغاء</button>
+                    <button class="btn-confirm" onclick="confirmLogout()">خروج</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة الفيديوهات -->
+        <div class="modal" id="videoModal">
+            <div class="modal-content video">
+                <button class="close-btn video" onclick="closeVideoModal()">&times;</button>
+                <div id="videoContainer">
+                    <!-- سيتم إضافة الفيديو هنا -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="كتب الرسالة ديالك هنا...">
+                <button class="chat-send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- التذييل -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                © 2025 <span class="brand-name">Sena3timate</span> – منصة تعلم الخياطة مخصصة للنساء الحرفيات.
+            </div>
+            <div class="footer-mission">
+                مع بعض، نخيطو مستقبل أعدل، أحر، أكرم.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
